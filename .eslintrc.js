@@ -27,6 +27,7 @@ module.exports = {
     rules: {
         "react/jsx-props-no-spreading": 2,
         "react/prop-types": 0,
+        "react-hooks/exhaustive-deps": 0,
         "react/jsx-boolean-value": [2, "always"],
         "import/prefer-default-export": 2,
     },

@@ -34,6 +34,7 @@ const Form: React.FC<IForm> = ({ canvasParams, updateCanvasValues }) => {
 
     return (
         <div className="form">
+            <div className="form__title">Choose your parameters</div>
             <input
                 className="form__input"
                 value={newCanvasParams.rows}

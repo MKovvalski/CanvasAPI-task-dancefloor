@@ -9,7 +9,7 @@ export interface IUseContainerOut {
 }
 
 const useStateContainer = (): IUseContainerOut => {
-    const logic = useMockedApiRequest({ latency: 500 });
+    const logic = useMockedApiRequest({ latency: 1000 });
     const [containerState, setContainerState] = useState<IMockedCanvas | null>(null);
 
     const getInitialState = async () => {

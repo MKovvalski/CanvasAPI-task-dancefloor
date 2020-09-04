@@ -19,9 +19,7 @@ const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
             if (canvasContext) {
                 for (let x = 0; x < rows; x++) {
                     for (let y = 0; y < columns; y++) {
-                        canvasContext.fillStyle = `rgb(${Math.floor(255 - 42.5 * x)}, ${Math.floor(
-                            255 - 42.5 * y,
-                        )}, 0)`;
+                        canvasContext.fillStyle = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
                         canvasContext.fillRect(y * squareSize, x * squareSize, squareSize, squareSize);
                     }
                 }

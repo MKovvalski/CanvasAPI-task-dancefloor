@@ -2,19 +2,14 @@ import React from "react";
 
 import CanvasRenderer from "./canvas-renderer";
 
-import { IMockedCanvas } from "../logic/api/use-mocked-api-call";
+import { ISharedContainerProps } from "./types";
 
-interface ICanvasContainer {
-    canvasParams: IMockedCanvas | null;
-    isLoading: boolean;
-}
-
-const CanvasContainer: React.FC<ICanvasContainer> = ({ isLoading, canvasParams }) => {
+const CanvasContainer: React.FC<ISharedContainerProps> = ({ isLoading, canvasParams }) => {
     return (
-        <div>
+        <>
             {isLoading && <div>Loading...</div>}
             {!isLoading && canvasParams && <CanvasRenderer {...canvasParams} />}
-        </div>
+        </>
     );
 };
 

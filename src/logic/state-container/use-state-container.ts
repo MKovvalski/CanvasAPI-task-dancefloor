@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import useMockedApiRequest, { IMockedCanvas } from "../api/use-mocked-api-call";
 
-interface IUseContainerOut {
+export interface IUseContainerOut {
     containerState: IMockedCanvas | null;
     isLoading: boolean;
     applyNewCanvasValues: (values: IMockedCanvas) => void;

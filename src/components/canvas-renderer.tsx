@@ -15,11 +15,8 @@ const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
             const parentWidth = parentRef.current.clientWidth;
 
             const squareSize = calculateSquareSize(parentWidth);
-            // somRef.current = 2000;
 
             if (canvasContext) {
-                // eslint-disable-next-line no-console
-                console.log(rows, columns, squareSize);
                 for (let x = 0; x < rows; x++) {
                     for (let y = 0; y < columns; y++) {
                         canvasContext.fillStyle = `rgb(${Math.floor(255 - 42.5 * x)}, ${Math.floor(
@@ -49,6 +46,10 @@ const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
     useEffect(() => {
         paintCanvas();
     }, [canvasRef.current]);
+
+    useEffect(() => {
+        paintCanvas();
+    }, [canvasSizing.width, canvasSizing.height]);
 
     return (
         <div ref={parentRef} style={{ height: canvasSizing.height }}>

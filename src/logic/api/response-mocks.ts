@@ -1,5 +1,6 @@
 const canvasAPIResponse = {
-    canvas: "some parameters to fill after I learn canvas :D",
+    rows: 2,
+    columns: 8,
 };
 
 export default canvasAPIResponse;

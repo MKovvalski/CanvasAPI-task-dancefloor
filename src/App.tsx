@@ -4,7 +4,6 @@ import "./styles/main.sass";
 import Layout from "./components/layout";
 import Header from "./components/header";
 import Content from "./components/content";
-import Footer from "./components/footer";
 
 const App: React.FC = () => {
     return (
@@ -12,7 +11,6 @@ const App: React.FC = () => {
             <Layout>
                 <Header />
                 <Content />
-                <Footer />
             </Layout>
         </div>
     );

@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import useApiCall from "../logic/api/use-mocked-api-call";
-import canvasAPIResponse from "../logic/api/response-mocks";
+import useStateContainer from "../logic/state-container/use-state-container";
+
+import CanvasContainer from "./canvas-container";
 
 const Content: React.FC = () => {
-    const useAPI = useApiCall({ response: canvasAPIResponse, latency: 2000 });
-    useEffect(() => {
-        useAPI.get();
-    }, []);
+    const logic = useStateContainer();
 
-    // eslint-disable-next-line no-console
-    console.log(useAPI.requestState);
-    return <main className="content">Welcome the Body</main>;
+    return (
+        <main className="content">
+            <CanvasContainer isLoading={logic.isLoading} canvasParams={logic.containerState} />
+        </main>
+    );
 };
 
 export default Content;

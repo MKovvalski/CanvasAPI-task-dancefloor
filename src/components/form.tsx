@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { IMockedCanvas } from "../logic/api/use-mocked-api-call";
+import { ICanvasParams } from "../logic/api/use-mocked-api-call";
 
 export interface IForm {
-    canvasParams: IMockedCanvas;
-    updateCanvasValues: (values: IMockedCanvas) => void;
+    canvasParams: ICanvasParams;
+    updateCanvasValues: (values: ICanvasParams) => void;
 }
 
 interface IFormState {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import canvasAPIResponse from "./response-mocks";
 
-export interface IMockedCanvas {
+export interface ICanvasParams {
     rows: number;
     columns: number;
 }
@@ -11,7 +11,7 @@ interface IUseApiMockedRequest {
 }
 
 interface IUseApiMockedRequestOut {
-    get: () => Promise<IMockedCanvas>;
+    get: () => Promise<ICanvasParams>;
     toggleLoading: (loadingState: boolean) => void;
     loading: boolean;
 }
@@ -23,7 +23,7 @@ const useMockedApiRequest = (props: IUseApiMockedRequest): IUseApiMockedRequestO
         isLoading(loadingState);
     };
 
-    const get = (): Promise<IMockedCanvas> => {
+    const get = (): Promise<ICanvasParams> => {
         return new Promise((resolve) =>
             setTimeout(() => {
                 resolve(canvasAPIResponse);

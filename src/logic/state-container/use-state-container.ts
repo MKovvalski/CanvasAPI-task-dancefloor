@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useState, useEffect } from "react";
-import useMockedApiRequest, { IMockedCanvas } from "../api/use-mocked-api-call";
+import useMockedApiRequest, { ICanvasParams } from "../api/use-mocked-api-call";
 
 export interface IUseContainerOut {
-    containerState: IMockedCanvas | null;
+    containerState: ICanvasParams | null;
     isLoading: boolean;
-    applyNewCanvasValues: (values: IMockedCanvas) => void;
+    applyNewCanvasValues: (values: ICanvasParams) => void;
 }
 
 const useStateContainer = (): IUseContainerOut => {
     const logic = useMockedApiRequest({ latency: 1000 });
-    const [containerState, setContainerState] = useState<IMockedCanvas | null>(null);
+    const [containerState, setContainerState] = useState<ICanvasParams | null>(null);
 
     const getInitialState = async () => {
         logic.toggleLoading(true);
@@ -24,7 +23,7 @@ const useStateContainer = (): IUseContainerOut => {
         }
     };
 
-    const applyNewCanvasValues = (values: IMockedCanvas) => {
+    const applyNewCanvasValues = (values: ICanvasParams) => {
         setContainerState(values);
     };
 

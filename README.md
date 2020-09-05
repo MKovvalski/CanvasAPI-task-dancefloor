@@ -1,3 +1,5 @@
+## !! Disclaimer - the last commit was not present during evaluation of this task. I pushed out to finish the project as I liked and wanted to wrap up the core functionalities !!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # Canvas API dancefloor

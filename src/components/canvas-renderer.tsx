@@ -1,20 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { IMockedCanvas } from "../logic/api/use-mocked-api-call";
+import { ICanvasParams } from "../logic/api/use-mocked-api-call";
 
-const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
-    const [canvasSizing, setCanvasSizing] = useState({ width: 500, height: 500 });
+interface ICanvasState {
+    width: number;
+    height: number;
+}
+
+const CanvasRenderer: React.FC<ICanvasParams> = ({ rows, columns }) => {
+    const [canvasSizing, setCanvasSizing] = useState<ICanvasState>({ width: 0, height: 0 });
     const parentRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const resizeRef = useRef(true);
+    const hasSizing = !!canvasSizing.width && !!canvasSizing.height;
 
     const calculateSquareSize = (parentWidth: number) => parentWidth / columns;
 
     const paintCanvas = () => {
-        if (canvasRef.current && parentRef.current) {
+        if (canvasRef.current) {
             const canvasContext = canvasRef.current.getContext("2d");
-            const parentWidth = parentRef.current.clientWidth;
-
-            const squareSize = calculateSquareSize(parentWidth);
+            const squareSize = calculateSquareSize(canvasSizing.width);
 
             if (canvasContext) {
                 for (let x = 0; x < rows; x++) {
@@ -29,11 +34,21 @@ const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
 
     const calculateCanvasSizing = () => {
         if (parentRef.current) {
-            const parentWidth = parentRef.current.clientWidth;
-            const squareSize = calculateSquareSize(parentWidth);
+            const width = parentRef.current.clientWidth;
+            const squareSize = calculateSquareSize(width);
             const height = squareSize * rows;
 
-            setCanvasSizing({ width: parentWidth, height });
+            setCanvasSizing({ width, height });
+        }
+    };
+
+    const executeDelayedResize = () => {
+        if (resizeRef.current && resizeRef.current) {
+            resizeRef.current = false;
+            setTimeout(() => {
+                calculateCanvasSizing();
+                resizeRef.current = true;
+            }, 500);
         }
     };
 
@@ -43,15 +58,18 @@ const CanvasRenderer: React.FC<IMockedCanvas> = ({ rows, columns }) => {
 
     useEffect(() => {
         paintCanvas();
-    }, [canvasRef.current]);
+    }, [canvasSizing.width, canvasSizing.height]);
 
     useEffect(() => {
-        paintCanvas();
-    }, [canvasSizing.width, canvasSizing.height]);
+        window.addEventListener("resize", executeDelayedResize);
+        return () => {
+            window.removeEventListener("resize", executeDelayedResize);
+        };
+    }, []);
 
     return (
         <div ref={parentRef} style={{ height: canvasSizing.height }}>
-            <canvas ref={canvasRef} width={canvasSizing.width} height={canvasSizing.height} />
+            {hasSizing && <canvas ref={canvasRef} width={canvasSizing.width} height={canvasSizing.height} />}
         </div>
     );
 };

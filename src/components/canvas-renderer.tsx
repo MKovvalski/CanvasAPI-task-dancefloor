@@ -8,10 +8,10 @@ interface ICanvasState {
 }
 
 const CanvasRenderer: React.FC<ICanvasParams> = ({ rows, columns }) => {
+    const [resizeTrigger, setResizeTrigger] = useState(false);
     const [canvasSizing, setCanvasSizing] = useState<ICanvasState>({ width: 0, height: 0 });
     const parentRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const resizeRef = useRef(true);
     const hasSizing = !!canvasSizing.width && !!canvasSizing.height;
 
     const calculateSquareSize = (parentWidth: number) => parentWidth / columns;
@@ -42,14 +42,17 @@ const CanvasRenderer: React.FC<ICanvasParams> = ({ rows, columns }) => {
         }
     };
 
-    const executeDelayedResize = () => {
-        if (resizeRef.current && resizeRef.current) {
-            resizeRef.current = false;
-            setTimeout(() => {
-                calculateCanvasSizing();
-                resizeRef.current = true;
+    const triggerCanvasResize = () => {
+        let timer: NodeJS.Timeout | null;
+        return () => {
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                timer = null;
+                setResizeTrigger(true);
             }, 500);
-        }
+        };
     };
 
     useEffect(() => {
@@ -61,11 +64,19 @@ const CanvasRenderer: React.FC<ICanvasParams> = ({ rows, columns }) => {
     }, [canvasSizing.width, canvasSizing.height]);
 
     useEffect(() => {
-        window.addEventListener("resize", executeDelayedResize);
+        const resizeEvent = triggerCanvasResize();
+        window.addEventListener("resize", resizeEvent);
         return () => {
-            window.removeEventListener("resize", executeDelayedResize);
+            window.removeEventListener("resize", resizeEvent);
         };
     }, []);
+
+    useEffect(() => {
+        if (resizeTrigger) {
+            calculateCanvasSizing();
+            setResizeTrigger(false);
+        }
+    }, [resizeTrigger]);
 
     return (
         <div ref={parentRef} style={{ height: canvasSizing.height }}>
